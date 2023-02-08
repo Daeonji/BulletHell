@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("com.mygdx.game.Bullet Hell");
-		config.setWindowedMode(800,800);
+		config.setWindowedMode(1000,800);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
 		new Lwjgl3Application(new MyGdxGame(), config);

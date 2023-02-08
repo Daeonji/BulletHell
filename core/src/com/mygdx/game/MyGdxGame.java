@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter{
@@ -63,17 +64,23 @@ public class MyGdxGame extends ApplicationAdapter{
 			batch.draw(planeSprite, plane.x, plane.y);
 			backwards = false;
 		}
-		for(int i = 0; i < bullets.size(); i++)
-		{
-			if(backwards)
-			{
-				batch.draw(bullet2Sprite, bullets.get(i).bullet.x -= 20, bullets.get(i).bullet.y);
-			}
-			else
-			{
-				batch.draw(bulletSprite, bullets.get(i).bullet.x += 20, bullets.get(i).bullet.y);
-			}
+
+		Iterator<Bullet> itr = bullets.iterator();
+
+		while(itr.hasNext()){
+			Bullet current = itr.next();
+				current.bullet.x += current.deltaX;
+				if(current.bullet.x < 0 || current.bullet.x > 1000) {
+					itr.remove();
+				}
+				else
+					if(backwards)
+						batch.draw(bullet2Sprite, current.bullet.x, current.bullet.y);
+					else
+						batch.draw(bulletSprite, current.bullet.x, current.bullet.y);
 		}
+
+
 		batch.end();
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) plane.x -= 300 * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) plane.x += 300 * Gdx.graphics.getDeltaTime();
@@ -81,13 +88,9 @@ public class MyGdxGame extends ApplicationAdapter{
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) plane.y -= 300 * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
 		{
-			bullets.add(new Bullet(plane.x, plane.y));
+			bullets.add(new Bullet(plane.x, plane.y, backwards ? -20 : 20));
 		}
 
-		for(int i = 0; i < bullets.size(); i++)
-		{
-			bullets.get(i).bullet.x += 3;
-		}
 
 		if(plane.x < 0) plane.x = 0;
 		if(plane.x > 800 - 64) plane.x = 800 -64;
