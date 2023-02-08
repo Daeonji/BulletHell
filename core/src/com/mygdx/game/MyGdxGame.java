@@ -6,9 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +21,6 @@ public class MyGdxGame extends ApplicationAdapter{
 	Texture bullet2Sprite;
 	private OrthographicCamera camera;
 	private Rectangle plane;
-	Boolean isFiring = false;
 	private List<Bullet> bullets;
 	Boolean backwards = false;
 
@@ -40,7 +38,7 @@ public class MyGdxGame extends ApplicationAdapter{
 		plane.y = 305;
 		plane.width = 64;
 		plane.height = 64;
-		bullets = new ArrayList<Bullet>();
+		bullets = new ArrayList<>();
 	}
 
 	@Override
