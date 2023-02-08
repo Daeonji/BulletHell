@@ -16,18 +16,22 @@ import java.util.List;
 public class MyGdxGame extends ApplicationAdapter{
 	SpriteBatch batch;
 	Texture planeSprite;
+	Texture plane2Sprite;
 	Texture bulletSprite;
+	Texture bullet2Sprite;
 	private OrthographicCamera camera;
 	private Rectangle plane;
 	Boolean isFiring = false;
 	private List<Bullet> bullets;
-	private long lastBullet;
-	
+	Boolean backwards = false;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		planeSprite = new Texture("modelNBG.png");
-		bulletSprite = new Texture("BlastSpriteNBG.png");
+		planeSprite = new Texture("Witch_NBG.png");
+		plane2Sprite = new Texture("WitchB_NBG.png");
+		bulletSprite = new Texture("SwordF.png");
+		bullet2Sprite = new Texture("Sword.png");
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,800,800);
 		plane = new Rectangle();
@@ -43,11 +47,32 @@ public class MyGdxGame extends ApplicationAdapter{
 		ScreenUtils.clear(0, 0, 0, 1);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+			backwards = true;
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.E))
+		{
+			backwards = false;
+		}
 		batch.begin();
-		batch.draw(planeSprite, plane.x, plane.y);
+		if(backwards)
+		{
+			batch.draw(plane2Sprite, plane.x, plane.y);
+		}
+		else {
+			batch.draw(planeSprite, plane.x, plane.y);
+			backwards = false;
+		}
 		for(int i = 0; i < bullets.size(); i++)
 		{
-				batch.draw(bulletSprite, bullets.get(i).bullet.x += 16, bullets.get(i).bullet.y);
+			if(backwards)
+			{
+				batch.draw(bullet2Sprite, bullets.get(i).bullet.x -= 20, bullets.get(i).bullet.y);
+			}
+			else
+			{
+				batch.draw(bulletSprite, bullets.get(i).bullet.x += 20, bullets.get(i).bullet.y);
+			}
 		}
 		batch.end();
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) plane.x -= 300 * Gdx.graphics.getDeltaTime();
@@ -57,7 +82,6 @@ public class MyGdxGame extends ApplicationAdapter{
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
 		{
 			bullets.add(new Bullet(plane.x, plane.y));
-			lastBullet = TimeUtils.nanoTime();
 		}
 
 		for(int i = 0; i < bullets.size(); i++)
@@ -66,7 +90,7 @@ public class MyGdxGame extends ApplicationAdapter{
 		}
 
 		if(plane.x < 0) plane.x = 0;
-		if(plane.x > 640 - 64) plane.x = 640 -64;
+		if(plane.x > 800 - 64) plane.x = 800 -64;
 		if(plane.y < 0) plane.y = 0;
 		if(plane.y > 800 - 64) plane.y = 800 - 64;
 	}
@@ -75,6 +99,9 @@ public class MyGdxGame extends ApplicationAdapter{
 	public void dispose () {
 		batch.dispose();
 		planeSprite.dispose();
+		plane2Sprite.dispose();
+		bullet2Sprite.dispose();
+		bulletSprite.dispose();
 	}
 }
 
