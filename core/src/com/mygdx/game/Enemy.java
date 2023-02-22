@@ -11,7 +11,7 @@ public class Enemy {
     Rectangle enemy;
     int deltaX;
     int deltaY;
-    Interpolation easAlpha = Interpolation.linear;
+    Interpolation easAlpha = Interpolation.circle;
     int lifeTime = 1;
     float elapsed = 0f;
     Vector2 position;
