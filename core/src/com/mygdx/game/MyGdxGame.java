@@ -19,10 +19,12 @@ public class MyGdxGame extends ApplicationAdapter{
 	Texture plane2Sprite;
 	Texture bulletSprite;
 	Texture bullet2Sprite;
+	Texture enemySprite;
 	private OrthographicCamera camera;
 	private Rectangle plane;
 	private List<Bullet> bullets;
 	Boolean backwards = false;
+	private List<Enemy> enemies;
 
 	@Override
 	public void create () {
@@ -31,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter{
 		plane2Sprite = new Texture("WitchB_NBG.png");
 		bulletSprite = new Texture("SwordF.png");
 		bullet2Sprite = new Texture("Sword.png");
+		enemySprite = new Texture("enemysprite.png");
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,800,800);
 		plane = new Rectangle();
@@ -39,6 +42,8 @@ public class MyGdxGame extends ApplicationAdapter{
 		plane.width = 64;
 		plane.height = 64;
 		bullets = new ArrayList<>();
+		enemies = new ArrayList<>();
+		enemies.add(new Enemy(500,200));
 	}
 
 	@Override
@@ -76,6 +81,18 @@ public class MyGdxGame extends ApplicationAdapter{
 						batch.draw(bullet2Sprite, current.bullet.x, current.bullet.y);
 					else
 						batch.draw(bulletSprite, current.bullet.x, current.bullet.y);
+		}
+		Iterator<Enemy> eitr = enemies.iterator();
+
+		while(eitr.hasNext()){
+			Enemy current = eitr.next();
+			current.update(Gdx.graphics.getDeltaTime());
+			if(current.enemy.x < 0 || current.enemy.x > 1000) {
+				eitr.remove();
+			}
+			else {
+				batch.draw(enemySprite, current.position.x, current.position.y);
+			}
 		}
 
 

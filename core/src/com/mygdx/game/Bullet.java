@@ -8,8 +8,8 @@ public class Bullet {
         bullet = new Rectangle();
         bullet.x = x;
         bullet.y = y;
-        bullet.width = 16;
-        bullet.height = 16;
+        bullet.width = 64;
+        bullet.height = 64;
         this.deltaX = deltaX;
     }
 }
